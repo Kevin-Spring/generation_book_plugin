@@ -107,7 +107,7 @@ function generation_books_metaboxes(){
         <option value="äventyr" <?php /* selected( $value, 'äventyr' ); */ ?>>Äventyr</option>
     </select>
     <label for="author">Författare</label>
-    <input type="text" name="author" value=" <?php esc_textarea( $price ) ?>" class="widefat">
+    <input type="text" name="author" value=" <?php esc_textarea( $author ) ?>" class="widefat">
 
     <?php 
 
