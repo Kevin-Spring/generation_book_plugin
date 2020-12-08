@@ -8,7 +8,7 @@ function generation_book_shortcode( $attr ) {
 
 
     $shortcode_args = shortcode_atts ( [
-        'posts_per_page'    => 3,
+        'posts_per_page'    => -1,
         'book_title'        => '',
         'offset'            => 0,
     ], $attr );
