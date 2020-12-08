@@ -104,6 +104,7 @@ function generation_books_metaboxes(){
     $price  = get_post_meta( $post->ID, 'price', true );
     $author = get_post_meta( $post->ID, 'author', true );
     $genre  = get_post_meta( $post->ID, 'genre', true );
+    $pages  = get_post_meta( $post->ID, 'pages', true ); 
 
     // Output the field
     ?>
@@ -124,6 +125,9 @@ function generation_books_metaboxes(){
     
     <label for="price"> Pris </label> 
     <input type="number" name="price" value="<?php echo intval( $price ); ?>" class="widefat">
+
+    <label for="pages"> Pages </label> 
+    <input type="number" name="pages" value="<?php echo intval( $pages ); ?>" class="widefat">
     
 
 <?php 
@@ -141,7 +145,7 @@ function generation_books_save_events_meta( $post_id, $post ) {
 
 	// Verify this came from the our screen and with proper authorization,
     // because save_post can be triggered at other times.
-    if ( ! isset( $_POST[ 'author' ] )  || ! isset( $_POST[ 'price' ] ) || ! isset( $_POST[ 'genre' ] )  || ! wp_verify_nonce( $_POST[ 'books_fields' ], basename( __FILE__ ) ) ) {
+    if ( ! isset( $_POST[ 'author' ] ) || ! isset( $_POST[ 'genre' ] ) || ! isset( $_POST[ 'pages' ] ) || ! isset( $_POST[ 'price' ] ) || ! wp_verify_nonce( $_POST[ 'books_fields' ], basename( __FILE__ ) ) ) {
 		return $post_id;
 	}
 
@@ -150,18 +154,23 @@ function generation_books_save_events_meta( $post_id, $post ) {
     $author = isset( $_POST[ 'author' ] ) ? sanitize_text_field( $_POST[ 'author' ] ) : '';
     update_post_meta( $post->ID, 'author', $author );
 
-    $price = isset( $_POST[ 'price' ] ) ? intval( $_POST[ 'price' ] ) : '';
-    update_post_meta( $post->ID, 'price', $price );
-
     // Lätt att ändra injection i frontenden för select -> options 
     // Så sanitize_text_field räcker egentligen inte, skulle behöva bygga en egen sanitizefunktion med sanitize_meta()
     $genre = isset( $_POST[ 'genre' ] ) ? sanitize_text_field( $_POST[ 'genre' ] ) : '';
     update_post_meta( $post->ID, 'genre', $genre );
 
+    $price = isset( $_POST[ 'price' ] ) ? intval( $_POST[ 'price' ] ) : '';
+    update_post_meta( $post->ID, 'price', $price );
+
+    $pages = isset( $_POST[ 'pages' ] ) ? intval( $_POST[ 'pages' ] ) : '';
+    update_post_meta( $post->ID, 'pages', $pages );
+
 
     $books_meta[ 'author' ] = $_POST[ 'author' ];
-    $books_meta[ 'price' ]  = $_POST[ 'price' ];
     $books_meta[ 'genre' ]  = $_POST[ 'genre' ];
+    $books_meta[ 'price' ]  = $_POST[ 'price' ];
+    $books_meta[ 'pages' ]  = $_POST[ 'pages' ];
+    
 
 	// Cycle through the $books_meta array.
 	foreach ( $books_meta as $key => $value ) :
@@ -191,6 +200,9 @@ function generation_books_save_events_meta( $post_id, $post ) {
 add_action( 'save_post', 'generation_books_save_events_meta', 1, 2 );
 
 
+/** 
+ * Shortcode
+*/
 
 
 
