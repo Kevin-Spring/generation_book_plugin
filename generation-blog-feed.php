@@ -205,134 +205,48 @@ add_action( 'save_post', 'generation_books_save_events_meta', 1, 2 );
 */
 function generation_book_shortcode( $attr ) {
 
+
     $shortcode_args = shortcode_atts ( [
         'posts_per_page'    => 1,
         'book_id'           => 0,
         'offset'            => 0,
-
-        /* 'price'             => 0,
-        'pages'             => 0,
-        'genre'             => '',
-        'author'            => '', */
-
     ], $attr );
 
-    ob_start();
-    echo  '<div class="grid-container">';
-     
-    query_posts( [
+    $args = [
+        'post_type' => 'books',
+        'post_status' => 'published',
         'posts_per_page' => intval( $shortcode_args[ 'posts_per_page' ] ),
         'book_id'        => intval( $shortcode_args[ 'book_id' ] ),
         'offset'         => intval( $shortcode_args[ 'offset' ] ),
-        
-        /* 'price'          => intval( $shortcode_args[ 'price' ] ),
-        'pages'          => intval( $shortcode_args[ 'pages' ] ),
-        'genre'          => $shortcode_args[ 'genre' ],
-        'author'         => $shortcode_args[ 'author' ], */
-    ] );
+    ];
 
-    $query = new WP_Query( $args );
+    $query = new WP_Query( $args ); 
 
-    while ( $query->have_posts() ) {
-        $query->the_post();
-    }
+    ob_start();
 
-    if ( have_posts () ) :
-        while ( have_posts() ) : 
-         the_post();
- 
-        //var_dump(get_the_post_thumbnail( $post_id, 'medium' ));
- 
-           echo '<div class="grid-item">
-                                 <p>' . esc_html( get_the_category()[0]->cat_name ) . '</p>
-                                 <h4> <a href="' . esc_url( get_the_permalink() ) . '">' . esc_html( get_the_title() ) . '</h4>' . get_the_post_thumbnail( $post_id, 'medium' ) . '</a>
-                             </div>';
+    echo '<div class="grid-container">';
+   
+
+    if ( $query->have_posts () ) :
+        while ( $query->have_posts() ) :
+      
+            $query->the_post();
+
+           echo '<div class="grid-item"> <h4> <a href="' . esc_url( get_the_permalink() ) . '">' . esc_html( get_the_title() ) . '</h4>' . get_the_post_thumbnail( $post_id, 'medium' ) . '</a> </div>';
+
         endwhile;
      endif;
-     
-     echo '</div>';
-  
-     wp_reset_query();
-    
-     ob_get_clean(); 
 
+     wp_reset_postdata();
+
+    echo '</div>';
+
+    $content = ob_get_clean();
+    return $content;
+  
  }
  
  add_shortcode( 'generation_books', 'generation_book_shortcode' );
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/* function get_generation_blog_feed( $attr ) {
-
-    $shortcode_args = shortcode_atts ( [
-        'posts_per_page'    => 1,
-        'category_id'       => 0,
-        'offset'            => 0,
-    ], $attr );
-
-    //ob_start();
-    $return_string = '<div class="grid-container">';
-     
-    query_posts( [
-        'posts_per_page' => intval( $shortcode_args[ 'posts_per_page' ] ),
-        'cat'            => intval( $shortcode_args[ 'category_id' ] ),
-        'offset'         => intval( $shortcode_args[ 'offset' ] )
-    ] ); */
-
-    /*
-    $query = new WP_Query( $args );
-
-    while ( $query->have_posts() ) {
-        $query->the_post();
-    }
-    */
-
-    /* if ( have_posts () ) :
-       while ( have_posts() ) : 
-        the_post();
-
-       //var_dump(get_the_post_thumbnail( $post_id, 'medium' ));
-
-          $return_string .= '<div class="grid-item">
-                                <p>' . esc_html( get_the_category()[0]->cat_name ) . '</p>
-                                <h4> <a href="' . esc_url( get_the_permalink() ) . '">' . esc_html( get_the_title() ) . '</h4>' . get_the_post_thumbnail( $post_id, 'medium' ) . '</a>
-                            </div>';
-       endwhile;
-    endif;
-    
-    $return_string .= '</div>';
- 
-    wp_reset_query();
-   
-    //ob_get_clean(); 
-    return $return_string;
-}
-
-add_shortcode( 'generation_blog_feed', 'get_generation_blog_feed' );
- */
 
 
 ?>
