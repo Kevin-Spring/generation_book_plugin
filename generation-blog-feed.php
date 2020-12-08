@@ -17,34 +17,37 @@ function my_css() {
 }
 add_action( 'wp_enqueue_scripts', 'my_css' );
 
+/**  
+ * Custom Post type 'Books' 
+ */
 
 function init_generation_books_post_type() {
 
     $labels = [
-        'name'                  => __( 'Books', 'Post type general name'),
-        'singular_name'         => __( 'Book', 'Post type singular name'),
-        'menu_name'             => __( 'Books', 'Admin Menu text'),
-        'name_admin_bar'        => __( 'Book', 'Add New on Toolbar'),
-        'add_new'               => __( 'Add New'),
-        'add_new_item'          => __( 'Add New Book'),
-        'new_item'              => __( 'New Book'),
-        'edit_item'             => __( 'Edit Book'),
-        'view_item'             => __( 'View Book'),
-        'all_items'             => __( 'All Books'),
-        'search_items'          => __( 'Search Books'),
-        'parent_item_colon'     => __( 'Parent Books:'),
-        'not_found'             => __( 'No books found.'),
-        'not_found_in_trash'    => __( 'No books found in Trash.'),
-        'featured_image'        => __( 'Book Cover Image', 'Overrides the “Featured Image” phrase for this post type.'),
-        'set_featured_image'    => __( 'Set cover image', 'Overrides the “Set featured image” phrase for this post type.'),
-        'remove_featured_image' => __( 'Remove cover image', 'Overrides the “Remove featured image” phrase for this post type.'),
-        'use_featured_image'    => __( 'Use as cover image', 'Overrides the “Use as featured image” phrase for this post type.'),
-        'archives'              => __( 'Book archives', 'The post type archive label used in nav menus. Default “Post Archives”.'),
-        'insert_into_item'      => __( 'Insert into book', 'Overrides the “Insert into post”/”Insert into page” phrase (used when inserting media into a post).'),
-        'uploaded_to_this_item' => __( 'Uploaded to this book', 'Overrides the “Uploaded to this post”/”Uploaded to this page” phrase (used when viewing media attached to a post).'),
-        'filter_items_list'     => __( 'Filter books list', 'Screen reader text for the filter links heading on the post type listing screen. Default “Filter posts list”/”Filter pages list”.'),
-        'items_list_navigation' => __( 'Books list navigation', 'Screen reader text for the pagination heading on the post type listing screen. Default “Posts list navigation”/”Pages list navigation”.'),
-        'items_list'            => __( 'Books list', 'Screen reader text for the items list heading on the post type listing screen. Default “Posts list”/”Pages list”.'),
+        'name'                  =>  'Books',
+        'singular_name'         =>  'Book',
+        'menu_name'             =>  'Books',
+        'name_admin_bar'        =>  'Book',
+        'add_new'               =>  'Add New',
+        'add_new_item'          =>  'Add New Book',
+        'new_item'              =>  'New Book',
+        'edit_item'             =>  'Edit Book',
+        'view_item'             =>  'View Book',
+        'all_items'             =>  'All Books',
+        'search_items'          =>  'Search Books',
+        'parent_item_colon'     =>  'Parent Books:',
+        'not_found'             =>  'No books found.',
+        'not_found_in_trash'    =>  'No books found in Trash.',
+        'featured_image'        =>  'Book Cover Image',
+        'set_featured_image'    =>  'Set cover image',
+        'remove_featured_image' =>  'Remove cover image',
+        'use_featured_image'    =>  'Use as cover image',
+        'archives'              =>  'Book archives',
+        'insert_into_item'      =>  'Insert into book',
+        'uploaded_to_this_item' =>  'Uploaded to this book',
+        'filter_items_list'     =>  'Filter books list',
+        'items_list_navigation' =>  'Books list navigation',
+        'items_list'            =>  'Books list',
     ];
 
     $args = [
@@ -72,7 +75,7 @@ add_action( 'init', 'init_generation_books_post_type' );
 
 
 /**  
- * Metabox 
+ * Metabox setup. 
  */
 function add_generation_books_metaboxes() {
     
@@ -91,39 +94,39 @@ function add_generation_books_metaboxes() {
  */
 function generation_books_metaboxes(){
 
+    //Global post-variabel för att kunna hämta data kring nuvarande post.
     global $post;
 
 	// Nonce field to validate form request came from current site
 	wp_nonce_field( basename( __FILE__ ), 'books_fields' );
 
 	// Get the location data if it's already been entered
-    $price = get_post_meta( $post->ID, 'price', true );
+    $price  = get_post_meta( $post->ID, 'price', true );
     $author = get_post_meta( $post->ID, 'author', true );
-    $genre = get_post_meta( $post->ID, 'genre', true );
+    $genre  = get_post_meta( $post->ID, 'genre', true );
 
     // Output the field
     ?>
     
-    <label for="author">Författare</label>
-    <input type="text" name="author" value="<?php echo $author ?>" class="widefat">
+    <label for="author"> Författare </label>
+    <input type="text" name="author" value="<?php echo esc_textarea( $author ); ?>" class="widefat">
 
-    <label for="genre">Genre</label>
+    <label for="genre"> Genre </label>
     <select name="genre" id="genre" class="widefat">
 
         <option value="<?php echo $genre ?>"> <?php echo $genre ?> </option>
 
-        <option value="barn" <?php selected( 'genre', 'barn' ); ?>>Barn</option>
-        <option value="thriller" <?php selected( 'genre', 'thriller' ); ?>>Thriller</option>
-        <option value="äventyr" <?php selected( 'genre', 'äventyr' ); ?>>Äventyr</option>
+        <option value="barn" <?php selected( 'genre', 'barn' ); ?>> Barn </option>
+        <option value="thriller" <?php selected( 'genre', 'thriller' ); ?>> Thriller </option>
+        <option value="äventyr" <?php selected( 'genre', 'äventyr' ); ?>> Äventyr </option>
 
     </select>
     
-    <label for="price">Pris</label> 
-    <input type="number" name="price" value="<?php echo $price ?>" class="widefat">
+    <label for="price"> Pris </label> 
+    <input type="number" name="price" value="<?php echo intval( $price ); ?>" class="widefat">
     
 
-    <?php 
-
+<?php 
 }
 
 /**
@@ -138,20 +141,33 @@ function generation_books_save_events_meta( $post_id, $post ) {
 
 	// Verify this came from the our screen and with proper authorization,
     // because save_post can be triggered at other times.
-    if ( ! isset( $_POST['author'] )  || ! isset( $_POST['price'] ) || ! isset( $_POST['genre'] )  || ! wp_verify_nonce( $_POST['books_fields'], basename(__FILE__) ) ) {
+    if ( ! isset( $_POST[ 'author' ] )  || ! isset( $_POST[ 'price' ] ) || ! isset( $_POST[ 'genre' ] )  || ! wp_verify_nonce( $_POST[ 'books_fields' ], basename( __FILE__ ) ) ) {
 		return $post_id;
 	}
 
 	// Now that we're authenticated, time to save the data.
-	// This sanitizes the data from the field and saves it into an array $events_meta.
-    $books_meta['author'] = esc_textarea( $_POST['author'] );
-    $books_meta['price'] = $_POST['price'];
-    $books_meta['genre'] = $_POST['genre'];
+    // This sanitizes the data from the field and saves it into an array $books_meta.
+    $author = isset( $_POST[ 'author' ] ) ? sanitize_text_field( $_POST[ 'author' ] ) : '';
+    update_post_meta( $post->ID, 'author', $author );
+
+    $price = isset( $_POST[ 'price' ] ) ? intval( $_POST[ 'price' ] ) : '';
+    update_post_meta( $post->ID, 'price', $price );
+
+    // Lätt att ändra injection i frontenden för select -> options 
+    // Så sanitize_text_field räcker egentligen inte, skulle behöva bygga en egen sanitizefunktion med sanitize_meta()
+    $genre = isset( $_POST[ 'genre' ] ) ? sanitize_text_field( $_POST[ 'genre' ] ) : '';
+    update_post_meta( $post->ID, 'genre', $genre );
+
+
+    $books_meta[ 'author' ] = $_POST[ 'author' ];
+    $books_meta[ 'price' ]  = $_POST[ 'price' ];
+    $books_meta[ 'genre' ]  = $_POST[ 'genre' ];
 
 	// Cycle through the $books_meta array.
 	foreach ( $books_meta as $key => $value ) :
 
-		// Don't store custom data twice
+        // Don't store custom data twice
+        // revision är då en posttyp som är historik av tidigare poster. Versionhantering typ. 
 		if ( 'revision' === $post->post_type ) {
 			return;
 		}
@@ -237,3 +253,4 @@ add_shortcode( 'generation_blog_feed', 'get_generation_blog_feed' );
  */
 
 
+?>
