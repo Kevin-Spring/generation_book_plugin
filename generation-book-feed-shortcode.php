@@ -34,11 +34,27 @@ function generation_book_shortcode( $attr ) {
             $query->the_post();
 
             echo '<div class="grid-item">';
-            echo '<h4> <a href="' . esc_url( get_the_permalink() ) . '">' . esc_html( get_the_title() ) . '</h4>' . get_the_post_thumbnail( get_the_ID(), 'medium' ) . '</a>'; 
-            echo '<p> Författare: <b>' . esc_html( get_post_meta( get_the_ID(), 'author' )[0] ) . '</b></p>';
-            echo '<p> Genre: <b>' . esc_html( get_post_meta( get_the_ID(), 'genre' )[0] ) . '</b></p>';
-            echo '<p> Sidor: <b>' . esc_html( get_post_meta( get_the_ID(), 'pages' )[0] ) . '</b></p>';
-            echo '<p> Pris: <b>' . esc_html( get_post_meta( get_the_ID(), 'price' )[0] ) . '</b></p>';
+
+            if( !empty( get_the_permalink() ) && !empty( get_the_title() ) ) :
+                echo '<h4> <a href="' . esc_url( get_the_permalink() ) . '">' . esc_html( get_the_title() ) . '</h4>' . get_the_post_thumbnail( get_the_ID(), 'medium' ) . '</a>'; 
+            endif;
+
+            if( !empty( get_post_meta( get_the_ID(), 'author' )[0] ) ) : 
+                echo '<p> Författare: <b>' . esc_html( get_post_meta( get_the_ID(), 'author' )[0] ) . '</b></p>';
+            endif;
+
+            if( !empty( get_post_meta( get_the_ID(), 'genre' )[0] ) ) : 
+                echo '<p> Genre: <b>' . esc_html( get_post_meta( get_the_ID(), 'genre' )[0] ) . '</b></p>';
+            endif;
+
+            if( !empty( get_post_meta( get_the_ID(), 'pages' )[0] ) ) : 
+                echo '<p> Sidor: <b>' . esc_html( get_post_meta( get_the_ID(), 'pages' )[0] ) . '</b></p>';
+            endif;
+
+            if( !empty( get_post_meta( get_the_ID(), 'price' )[0] ) ) : 
+                echo '<p> Pris: <b>' . esc_html( get_post_meta( get_the_ID(), 'price' )[0] ) . '</b></p>';
+            endif;
+
             echo '</div>';
 
         endwhile;

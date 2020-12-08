@@ -2,7 +2,7 @@
 if( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
 /**  
- * Custom Post type 'Books' 
+ * Custom Post type 'books' 
  */
 
 function init_generation_books_post_type() {

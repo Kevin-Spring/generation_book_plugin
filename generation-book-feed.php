@@ -10,6 +10,10 @@ if( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
  * Domain Path: /languages
  */
 
+/**
+ * Shortcode = [generations_books]
+ */
+
 function my_css() {
     wp_register_style( 'style', plugins_url( 'style.css', __FILE__ ) );
     wp_enqueue_style( 'style' );

@@ -27,13 +27,12 @@ function generation_books_metaboxes(){
 	// Nonce field to validate form request came from current site
 	wp_nonce_field( basename( __FILE__ ), 'books_fields' );
 
-	// Get the location data if it's already been entered
+	// Get the book data if it's already been entered
     $price  = get_post_meta( $post->ID, 'price', true );
     $author = get_post_meta( $post->ID, 'author', true );
     $genre  = get_post_meta( $post->ID, 'genre', true );
     $pages  = get_post_meta( $post->ID, 'pages', true ); 
 
-    // Output the field
     ?>
     
     <label for="author"> Författare </label>
@@ -72,6 +71,7 @@ function generation_books_save_events_meta( $post_id, $post ) {
 
 	// Verify this came from the our screen and with proper authorization,
     // because save_post can be triggered at other times.
+    // Kanske spara $_POST värderna till variabler & lägga in i en array istället för att kolla A L L A?
     if ( ! isset( $_POST[ 'author' ] ) || ! isset( $_POST[ 'genre' ] ) || ! isset( $_POST[ 'pages' ] ) || ! isset( $_POST[ 'price' ] ) || ! wp_verify_nonce( $_POST[ 'books_fields' ], basename( __FILE__ ) ) ) {
 		return $post_id;
 	}
