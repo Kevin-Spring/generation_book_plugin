@@ -13,7 +13,7 @@ function generation_book_shortcode($attr) {
 
     $args = [
         'post_type'         => 'gen_book',
-        'post_status'       => 'published',
+        'post_status'       => 'publish',
         'posts_per_page'    => intval($shortcode_args['posts_per_page']),
         'title'             => sanitize_text_field($shortcode_args['book_title']),
         'offset'            => intval($shortcode_args['offset']),
