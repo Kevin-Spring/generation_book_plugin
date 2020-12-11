@@ -76,6 +76,7 @@ function generation_books_save_events_meta( $post_id, $post ) {
     $genre = isset( $_POST[ '_gen_book_genre' ] ) ? sanitize_text_field( $_POST[ '_gen_book_genre' ] ) : '';
     update_post_meta( $post->ID, '_gen_book_genre', $genre );
 
+    // Om priset ska kunnas visas i decimaler kan du kolla upp floatval() & sprintf
     $price = isset( $_POST[ '_gen_book_price' ] ) ? intval( $_POST[ '_gen_book_price' ] ) : '';
     update_post_meta( $post->ID, '_gen_book_price', $price );
 
