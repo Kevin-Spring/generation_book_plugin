@@ -1,6 +1,4 @@
-<?php 
-if( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
-
+<?php if( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 /*
  * Plugin Name: Generation book-plugin
  * Description: Shortcode for displaying books
@@ -21,10 +19,5 @@ function my_css() {
 add_action( 'wp_enqueue_scripts', 'my_css' );
 
 include 'generation-book-feed-post-type.php'; 
-
 include 'generation-book-feed-metabox.php';
-
 include 'generation-book-feed-shortcode.php';
-
-
-?>

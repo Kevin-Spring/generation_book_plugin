@@ -1,10 +1,8 @@
-<?php
-if( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+<?php if( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
 /**  
  * Custom Post type 'books' 
  */
-
 function init_generation_books_post_type() {
 
     $labels = [
@@ -37,7 +35,7 @@ function init_generation_books_post_type() {
     $args = [
         'labels'                => $labels,
         'public'                => true,
-        'publicly_queryable'    => true,
+        'publicly_queryable'    => false,
         'show_ui'               => true,
         'show_in_menu'          => true,
         'show_in_rest'          => true,
@@ -51,10 +49,8 @@ function init_generation_books_post_type() {
         'register_meta_box_cb'  => 'add_generation_books_metaboxes',  
     ];
 
-    register_post_type( 'books', $args );
+    register_post_type( 'gen_book', $args );
 
 }
 
 add_action( 'init', 'init_generation_books_post_type' );
-
-?>
